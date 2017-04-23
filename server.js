@@ -5,10 +5,12 @@ var port = process.env.PORT || 80
 
 app.get('/', function(req, res){
   
+  var software = req.headers['user-agent'];
+  var lan = req.headers['accept-language'];
   var send = {
     ipaddress: req.headers['x-forwarded-for'],
-    language: req.headers['accept-language'].slice(0,6),
-    software: req.headers['user-agent'].slice(13,46)
+    language: lan.substring(0, lan.indexOf(",") ),
+    software: software.substring(software.indexOf("(")+1, software.indexOf(")") )
   }
   
   res.send(send)
